@@ -1,0 +1,29 @@
+
+ Test 1: 
+ 
+<vacia>
+
+ Test 2: 
+ 
+Agustina Arg 38 79 
+
+ Test 3: 
+ 
+Josefina Esp 33 23 
+
+ Test 4a: 
+ 
+Argentina 34.00 
+<vacia>
+
+ Test 4b: 
+ 
+Brasil 4.00 
+Josefa France 60 63 
+Fede Italy 48 66 
+
+ Test 4c: 
+ 
+Belgica 13.00 
+Josefa France 60 100 
+Fede Italy 48 50 
