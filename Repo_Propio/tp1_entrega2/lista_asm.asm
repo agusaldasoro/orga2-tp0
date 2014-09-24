@@ -39,8 +39,8 @@ extern toupper
 
 ; SE RECOMIENDA COMPLETAR LOS DEFINES CON LOS VALORES CORRECTOS
 %define NULL 0x00000000
-%define TRUE 0x01
-%define FALSE 0x00
+%define TRUE 0x00000001
+%define FALSE 0x00000000
 
 %define NODO_SIZE      24
 %define LISTA_SIZE     16 
@@ -781,10 +781,10 @@ string_iguales:
 		call string_comparar
 		cmp eax, 0x0000
 		JE .iguales
-		mov al, FALSE
+		mov rax, FALSE
 		jmp .fin 
 		.iguales:
-		mov al, TRUE
+		mov rax, TRUE
 		.fin:
 		pop rbp
 		ret
@@ -831,7 +831,7 @@ string_comparar:
 		jmp .fin
 		.Ret_Pos:
 		xor rax, rax
-		mov rax, 0x0001
+		mov rax, 0x00000001
 		jmp .fin 
 		.Ret_Cero:
 		xor rax, rax
