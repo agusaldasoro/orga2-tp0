@@ -70,7 +70,7 @@ APPEND: db "a", 00
 VACIA: db "<vacia>",10,00
 PARAMETROS_PRINT_J: db "%s %s %d %d ",10,00
 PARAMETROS_PRINT_S: db "%s %.2f ",10, 00
-PIE: dq 0.030612245
+PIE: dq 30.48
 
 section .data
 
@@ -329,9 +329,9 @@ normalizar_jugador:
 	pxor xmm0, xmm0
 	pxor xmm1, xmm1 
 	CVTSI2SD xmm0, R14d; convert signed int to double
-	movsd xmm1, [PIE]
-	mulsd xmm0, xmm1 
-	CVTSD2SI r14d, xmm0 ; convert double to int 
+	movq xmm1, [PIE]
+	divpd xmm0, xmm1
+	CVTTSD2SI r14d, xmm0 ; convert double to int 
 
 	mov rdi, [rbp-8] 
 	mov rsi, [r12+OFFSET_PAIS_J]
@@ -551,13 +551,14 @@ insertar_ordenado:
 	cmp qword [r13+OFFSET_PRIMERO], NULL
 	je .insertar_solo
 
-;	mov rdi, r12
-;	mov rdi, [rdi+OFFSET_DATOS]
-;	mov rsi, [r13+OFFSET_PRIMERO] 
-;	mov rsi, [rsi+OFFSET_DATOS]
-;	call [rbp-24]
-;	cmp rax, TRUE
-;	je .insertar_primero
+	mov rdi, r12
+	mov rdi, [rdi+OFFSET_DATOS]
+	mov r14, [r13+OFFSET_PRIMERO]
+	mov rsi, r14 
+	mov rsi, [rsi+OFFSET_DATOS]
+	call [rbp-24]
+	cmp rax, TRUE
+	je .insertar_primero
 
 	;mov rdi, [r13+OFFSET_ULTIMO]
 	;mov rdi, [rdi+OFFSET_DATOS]
@@ -574,9 +575,9 @@ insertar_ordenado:
 	mov r15, [r14+OFFSET_SIG] ;en r15 esta el nodo siguiente 
 	cmp r15, NULL
 	je .insertar_ultimo
-	mov rdi, r12 
-	mov rdi, [rdi+OFFSET_DATOS]
-	mov rsi, r15
+	mov rdi, r12 		;*nuevo nodo
+	mov rdi, [rdi+OFFSET_DATOS] 
+	mov rsi, r15 		;*nodo actual
 	mov rsi, [rsi+OFFSET_DATOS]
 	xor rax, rax
 	call [rbp-24]
