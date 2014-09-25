@@ -48,7 +48,6 @@ void caso1Elemento() {
   lista_imprimir_f(A, target, (tipo_funcion_imprimir)&imprimir_jugador);
 
   lista* TodasLasSelecciones = generar_selecciones(A);
-  lista_imprimir(TodasLasSelecciones, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_seleccion);
   lista_borrar(TodasLasSelecciones, (tipo_funcion_borrar)&borrar_seleccion);
 
   seleccion* solari = crear_seleccion("Argentina",22.3, A);
@@ -151,14 +150,14 @@ int main() {
   srand(20140830);
   remove("salida.caso1.txt");
   caso1Elemento();
-/*
+
   remove("salida.caso2a.txt");
   remove("salida.caso2b.txt");
   caso2Elementos();
 
   remove("salida.casoNa.txt");
   remove("salida.casoNb.txt");
-  casoNElementos();*/
+  casoNElementos();
 
   return 0;
 }

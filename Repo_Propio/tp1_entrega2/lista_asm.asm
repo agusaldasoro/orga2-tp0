@@ -288,11 +288,11 @@ menor_jugador:
 	jle .es_true ;jump short if below or equal
 
 	.es_false:
-	mov al, FALSE
+	mov rax, FALSE
 	jmp .fin
 
 	.es_true:
-	mov al, TRUE
+	mov rax, TRUE
 
 	.fin:
 	add rsp, 16
@@ -446,13 +446,13 @@ menor_seleccion:
 	mov rdi, [rdi+OFFSET_PAIS_S]
 	mov rsi, [rsi+OFFSET_PAIS_S]
 	call string_comparar
-	cmp eax, 0
-	jb .estrue
-	mov eax, FALSE
+	cmp eax, 0 ;si son iguales devuelvo true 
+	jl .estrue
+	mov rax, FALSE
 	jmp .fin 
 
 	.estrue:
-	mov eax, TRUE
+	mov rax, TRUE
 	.fin:
 	pop rbp
 	ret 
@@ -551,30 +551,36 @@ insertar_ordenado:
 	cmp qword [r13+OFFSET_PRIMERO], NULL
 	je .insertar_solo
 
-	mov rdi, [r13+OFFSET_PRIMERO] ;como compara con < y quiero comparar con <= , los pongo en orden inverso
-	mov rsi, r12
-	mov r14, [rbp-24]
-	call r14
-	cmp al, FALSE
-	je .insertar_primero ;comparo con false
+;	mov rdi, r12
+;	mov rdi, [rdi+OFFSET_DATOS]
+;	mov rsi, [r13+OFFSET_PRIMERO] 
+;	mov rsi, [rsi+OFFSET_DATOS]
+;	call [rbp-24]
+;	cmp rax, TRUE
+;	je .insertar_primero
 
-	mov rdi, r12 ;como compara con < y quiero comparar con <= , los pongo en orden inverso
-	mov rsi, [r13+OFFSET_ULTIMO]
- 	call [rbp-24]
-	cmp al, FALSE
-	je .insertar_ultimo ;comparo con false
+	;mov rdi, [r13+OFFSET_ULTIMO]
+	;mov rdi, [rdi+OFFSET_DATOS]
+	;mov rsi, r12
+	;mov rsi, [rsi+OFFSET_DATOS]
+ 	;call [rbp-24]
+	;cmp rax, TRUE
+	;je .insertar_ultimo ;comparo con false
 	
 	mov r15, [r13+OFFSET_PRIMERO] ;en r15 esta el primer nodo 
 	.ciclo_insertar:
-;se que no me voy a pasar nunca porque ya compare con los bordes con =
-;si es igual a un elemento que ya esta en la lista, lo va a insertar al final de la subsecuencia de ese mismo elemento
+
 	mov r14, r15  ; en r14 esta el nodo actual 
 	mov r15, [r14+OFFSET_SIG] ;en r15 esta el nodo siguiente 
+	cmp r15, NULL
+	je .insertar_ultimo
 	mov rdi, r12 
+	mov rdi, [rdi+OFFSET_DATOS]
 	mov rsi, r15
+	mov rsi, [rsi+OFFSET_DATOS]
 	xor rax, rax
 	call [rbp-24]
-	cmp al, FALSE 
+	cmp rax, FALSE 
 	je .ciclo_insertar
 
 	mov [r14+OFFSET_SIG], r12 
@@ -592,11 +598,14 @@ insertar_ordenado:
 	jmp .fin
 
 	.insertar_ultimo:
-	mov qword [r12+OFFSET_SIG], NULL
-	mov r14, [r13+OFFSET_ULTIMO] ;en r14 tengo el puntero al ultimo
-	mov [r14+OFFSET_SIG], r12
-	mov [r12+OFFSET_ANT], r14
-	mov [r13+OFFSET_ULTIMO], r12
+	mov rdi, r13
+	mov rsi, r12
+	call insertar_ultimo
+	;mov qword [r12+OFFSET_SIG], NULL
+	;mov r14, [r13+OFFSET_ULTIMO] ;en r14 tengo el puntero al ultimo
+	;mov [r14+OFFSET_SIG], r12
+	;mov [r12+OFFSET_ANT], r14
+	;mov [r13+OFFSET_ULTIMO], r12
 	jmp .fin
 
 	.insertar_solo:
@@ -715,6 +724,7 @@ mapear:
 	jne .ciclo 
 
 	.final:
+	mov rax, [rbp-16]
 	pop r12 
 	add rsp, 24 
 	pop rbp 

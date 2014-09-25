@@ -1,6 +1,6 @@
 #include "lista.h"
 
-
+bool string_iguales(char* a, char* b);
 // Completar las funciones en C
 
 
@@ -10,7 +10,7 @@ void insertar_en_lista(jugador* j, lista* l){ //l es lista de selecciones
 	nodo* nodo_selec = (*l).primero;	//Aca tengo la primer seleccion.
 	while((nodo_selec != NULL) && !encontre){
 		seleccion* selec = nodo_selec->datos;
-		if(string_iguales(selec->pais, j->pais)){
+		if(string_iguales((*selec).pais, (*j).pais)){
 			lista* insertar = selec->jugadores;
 			insertar_ordenado(insertar, j2, (tipo_funcion_cmp) menor_jugador);
 			encontre = true;
@@ -27,7 +27,8 @@ void insertar_en_lista(jugador* j, lista* l){ //l es lista de selecciones
 
 lista *generar_selecciones( lista *l ){
 	lista* result = lista_crear();
-	nodo* nod = (*l).primero;
+	lista* mapeada = mapear(l, (tipo_funcion_mapear) normalizar_jugador); 
+	nodo* nod = (*mapeada).primero;
 	while(nod != NULL){
 		jugador *jug = (*nod).datos;
 		insertar_en_lista(jug, result); //result es lista de selecciones, jug se le pasa por referencia.
@@ -42,6 +43,7 @@ lista *generar_selecciones( lista *l ){
 		nod = (*nod).sig;
 	}
 	//free(nod);
+	lista_borrar(mapeada, (tipo_funcion_borrar) borrar_jugador);
 	return result;
 } 
 

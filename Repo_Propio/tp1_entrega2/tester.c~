@@ -123,9 +123,9 @@ void casoNElementos() {
   assert(abs(altura_promedio(SoloArgentinos)-190.09)<EPS);
   assert(abs(altura_promedio(SoloAmericanos)-189.93)<EPS);
 
-  lista_imprimir(Todos, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
-  lista_imprimir(SoloArgentinos, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
-  lista_imprimir(AmericanosEnSusUnidades, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
+//  lista_imprimir(Todos, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
+//  lista_imprimir(SoloArgentinos, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
+//  lista_imprimir(AmericanosEnSusUnidades, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_jugador);
 
   verre_f(SoloArgentinos, target, (tipo_funcion_imprimir)&imprimir_jugador);
   verre_f(AmericanosEnSusUnidades, target, (tipo_funcion_imprimir)&imprimir_jugador);
@@ -140,7 +140,7 @@ void casoNElementos() {
   free(NodoAmericanoEjemplar);
 
   lista* TodasLasSelecciones = generar_selecciones(Todos);
-  lista_imprimir(TodasLasSelecciones, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_seleccion);
+ // lista_imprimir(TodasLasSelecciones, "salida.casoNb.txt", (tipo_funcion_imprimir)&imprimir_seleccion);
   lista_borrar(TodasLasSelecciones, (tipo_funcion_borrar)&borrar_seleccion);
   lista_borrar(Todos, (tipo_funcion_borrar)&borrar_jugador);
   fclose(target);
